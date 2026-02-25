@@ -8549,6 +8549,240 @@
                 "success": true
             }
         },
+        "E:/PixiJS/PixiTest/raw-assets/main{m}/spine/Card.atlas": {
+            "isFolder": false,
+            "parent": "E:/PixiJS/PixiTest/raw-assets/main{m}/spine",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {},
+            "stats": {
+                "date": 1770792560086,
+                "duration": 14.022999999928288,
+                "success": true
+            },
+            "hash": "jlctcg"
+        },
+        ".assetpack/mipmap-spine-atlas/main{m}/spine/Card.atlas": {
+            "isFolder": false,
+            "transformParent": "E:/PixiJS/PixiTest/raw-assets/main{m}/spine/Card.atlas",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {}
+        },
+        ".assetpack/spine-atlas-compress/main{m}/spine/Card.png.atlas": {
+            "isFolder": false,
+            "transformParent": ".assetpack/mipmap-spine-atlas/main{m}/spine/Card.atlas",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {}
+        },
+        "E:/PixiJS/PixiTest/public/assets/main/spine/Card.png.atlas": {
+            "isFolder": false,
+            "transformParent": ".assetpack/spine-atlas-compress/main{m}/spine/Card.png.atlas",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {}
+        },
+        ".assetpack/spine-atlas-compress/main{m}/spine/Card.webp.atlas": {
+            "isFolder": false,
+            "transformParent": ".assetpack/mipmap-spine-atlas/main{m}/spine/Card.atlas",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {}
+        },
+        "E:/PixiJS/PixiTest/public/assets/main/spine/Card.webp.atlas": {
+            "isFolder": false,
+            "transformParent": ".assetpack/spine-atlas-compress/main{m}/spine/Card.webp.atlas",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {}
+        },
+        ".assetpack/mipmap-spine-atlas/main{m}/spine/Card@0.5x.atlas": {
+            "isFolder": false,
+            "transformParent": "E:/PixiJS/PixiTest/raw-assets/main{m}/spine/Card.atlas",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {}
+        },
+        ".assetpack/spine-atlas-compress/main{m}/spine/Card@0.5x.png.atlas": {
+            "isFolder": false,
+            "transformParent": ".assetpack/mipmap-spine-atlas/main{m}/spine/Card@0.5x.atlas",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {}
+        },
+        "E:/PixiJS/PixiTest/public/assets/main/spine/Card@0.5x.png.atlas": {
+            "isFolder": false,
+            "transformParent": ".assetpack/spine-atlas-compress/main{m}/spine/Card@0.5x.png.atlas",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {}
+        },
+        ".assetpack/spine-atlas-compress/main{m}/spine/Card@0.5x.webp.atlas": {
+            "isFolder": false,
+            "transformParent": ".assetpack/mipmap-spine-atlas/main{m}/spine/Card@0.5x.atlas",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {}
+        },
+        "E:/PixiJS/PixiTest/public/assets/main/spine/Card@0.5x.webp.atlas": {
+            "isFolder": false,
+            "transformParent": ".assetpack/spine-atlas-compress/main{m}/spine/Card@0.5x.webp.atlas",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {}
+        },
+        "E:/PixiJS/PixiTest/raw-assets/main{m}/spine/Card.png": {
+            "isFolder": false,
+            "parent": "E:/PixiJS/PixiTest/raw-assets/main{m}/spine",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {},
+            "stats": {
+                "date": 1770792560087,
+                "duration": 2470.108600000036,
+                "success": true
+            },
+            "hash": "J_HnQg"
+        },
+        ".assetpack/mipmap/main{m}/spine/Card.png": {
+            "isFolder": false,
+            "transformParent": "E:/PixiJS/PixiTest/raw-assets/main{m}/spine/Card.png",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {}
+        },
+        ".assetpack/compress/main{m}/spine/Card.png": {
+            "isFolder": false,
+            "transformParent": ".assetpack/mipmap/main{m}/spine/Card.png",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {}
+        },
+        "E:/PixiJS/PixiTest/public/assets/main/spine/Card.png": {
+            "isFolder": false,
+            "transformParent": ".assetpack/compress/main{m}/spine/Card.png",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {}
+        },
+        ".assetpack/compress/main{m}/spine/Card.webp": {
+            "isFolder": false,
+            "transformParent": ".assetpack/mipmap/main{m}/spine/Card.png",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {}
+        },
+        "E:/PixiJS/PixiTest/public/assets/main/spine/Card.webp": {
+            "isFolder": false,
+            "transformParent": ".assetpack/compress/main{m}/spine/Card.webp",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {}
+        },
+        ".assetpack/mipmap/main{m}/spine/Card@0.5x.png": {
+            "isFolder": false,
+            "transformParent": "E:/PixiJS/PixiTest/raw-assets/main{m}/spine/Card.png",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {}
+        },
+        ".assetpack/compress/main{m}/spine/Card@0.5x.png": {
+            "isFolder": false,
+            "transformParent": ".assetpack/mipmap/main{m}/spine/Card@0.5x.png",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {}
+        },
+        "E:/PixiJS/PixiTest/public/assets/main/spine/Card@0.5x.png": {
+            "isFolder": false,
+            "transformParent": ".assetpack/compress/main{m}/spine/Card@0.5x.png",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {}
+        },
+        ".assetpack/compress/main{m}/spine/Card@0.5x.webp": {
+            "isFolder": false,
+            "transformParent": ".assetpack/mipmap/main{m}/spine/Card@0.5x.png",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {}
+        },
+        "E:/PixiJS/PixiTest/public/assets/main/spine/Card@0.5x.webp": {
+            "isFolder": false,
+            "transformParent": ".assetpack/compress/main{m}/spine/Card@0.5x.webp",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {}
+        },
+        "E:/PixiJS/PixiTest/raw-assets/main{m}/spine/Card.skel": {
+            "isFolder": false,
+            "parent": "E:/PixiJS/PixiTest/raw-assets/main{m}/spine",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {},
+            "stats": {
+                "date": 1770792560096,
+                "duration": 3.944099999964237,
+                "success": true
+            },
+            "hash": "Elje_g"
+        },
+        "E:/PixiJS/PixiTest/public/assets/main/spine/Card.skel": {
+            "isFolder": false,
+            "transformParent": "E:/PixiJS/PixiTest/raw-assets/main{m}/spine/Card.skel",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {}
+        },
         "E:/PixiJS/PixiTest/raw-assets/main{m}/spine/cash-out.atlas": {
             "isFolder": false,
             "parent": "E:/PixiJS/PixiTest/raw-assets/main{m}/spine",
@@ -9245,240 +9479,6 @@
         "E:/PixiJS/PixiTest/public/assets/main/spine/UI_Info.skel": {
             "isFolder": false,
             "transformParent": "E:/PixiJS/PixiTest/raw-assets/main{m}/spine/UI_Info.skel",
-            "metaData": {},
-            "inheritedMetaData": {
-                "m": true
-            },
-            "transformData": {}
-        },
-        "E:/PixiJS/PixiTest/raw-assets/main{m}/spine/Card.atlas": {
-            "isFolder": false,
-            "parent": "E:/PixiJS/PixiTest/raw-assets/main{m}/spine",
-            "metaData": {},
-            "inheritedMetaData": {
-                "m": true
-            },
-            "transformData": {},
-            "stats": {
-                "date": 1770792560086,
-                "duration": 14.022999999928288,
-                "success": true
-            },
-            "hash": "jlctcg"
-        },
-        ".assetpack/mipmap-spine-atlas/main{m}/spine/Card.atlas": {
-            "isFolder": false,
-            "transformParent": "E:/PixiJS/PixiTest/raw-assets/main{m}/spine/Card.atlas",
-            "metaData": {},
-            "inheritedMetaData": {
-                "m": true
-            },
-            "transformData": {}
-        },
-        ".assetpack/spine-atlas-compress/main{m}/spine/Card.png.atlas": {
-            "isFolder": false,
-            "transformParent": ".assetpack/mipmap-spine-atlas/main{m}/spine/Card.atlas",
-            "metaData": {},
-            "inheritedMetaData": {
-                "m": true
-            },
-            "transformData": {}
-        },
-        "E:/PixiJS/PixiTest/public/assets/main/spine/Card.png.atlas": {
-            "isFolder": false,
-            "transformParent": ".assetpack/spine-atlas-compress/main{m}/spine/Card.png.atlas",
-            "metaData": {},
-            "inheritedMetaData": {
-                "m": true
-            },
-            "transformData": {}
-        },
-        ".assetpack/spine-atlas-compress/main{m}/spine/Card.webp.atlas": {
-            "isFolder": false,
-            "transformParent": ".assetpack/mipmap-spine-atlas/main{m}/spine/Card.atlas",
-            "metaData": {},
-            "inheritedMetaData": {
-                "m": true
-            },
-            "transformData": {}
-        },
-        "E:/PixiJS/PixiTest/public/assets/main/spine/Card.webp.atlas": {
-            "isFolder": false,
-            "transformParent": ".assetpack/spine-atlas-compress/main{m}/spine/Card.webp.atlas",
-            "metaData": {},
-            "inheritedMetaData": {
-                "m": true
-            },
-            "transformData": {}
-        },
-        ".assetpack/mipmap-spine-atlas/main{m}/spine/Card@0.5x.atlas": {
-            "isFolder": false,
-            "transformParent": "E:/PixiJS/PixiTest/raw-assets/main{m}/spine/Card.atlas",
-            "metaData": {},
-            "inheritedMetaData": {
-                "m": true
-            },
-            "transformData": {}
-        },
-        ".assetpack/spine-atlas-compress/main{m}/spine/Card@0.5x.png.atlas": {
-            "isFolder": false,
-            "transformParent": ".assetpack/mipmap-spine-atlas/main{m}/spine/Card@0.5x.atlas",
-            "metaData": {},
-            "inheritedMetaData": {
-                "m": true
-            },
-            "transformData": {}
-        },
-        "E:/PixiJS/PixiTest/public/assets/main/spine/Card@0.5x.png.atlas": {
-            "isFolder": false,
-            "transformParent": ".assetpack/spine-atlas-compress/main{m}/spine/Card@0.5x.png.atlas",
-            "metaData": {},
-            "inheritedMetaData": {
-                "m": true
-            },
-            "transformData": {}
-        },
-        ".assetpack/spine-atlas-compress/main{m}/spine/Card@0.5x.webp.atlas": {
-            "isFolder": false,
-            "transformParent": ".assetpack/mipmap-spine-atlas/main{m}/spine/Card@0.5x.atlas",
-            "metaData": {},
-            "inheritedMetaData": {
-                "m": true
-            },
-            "transformData": {}
-        },
-        "E:/PixiJS/PixiTest/public/assets/main/spine/Card@0.5x.webp.atlas": {
-            "isFolder": false,
-            "transformParent": ".assetpack/spine-atlas-compress/main{m}/spine/Card@0.5x.webp.atlas",
-            "metaData": {},
-            "inheritedMetaData": {
-                "m": true
-            },
-            "transformData": {}
-        },
-        "E:/PixiJS/PixiTest/raw-assets/main{m}/spine/Card.png": {
-            "isFolder": false,
-            "parent": "E:/PixiJS/PixiTest/raw-assets/main{m}/spine",
-            "metaData": {},
-            "inheritedMetaData": {
-                "m": true
-            },
-            "transformData": {},
-            "stats": {
-                "date": 1770792560087,
-                "duration": 2470.108600000036,
-                "success": true
-            },
-            "hash": "J_HnQg"
-        },
-        ".assetpack/mipmap/main{m}/spine/Card.png": {
-            "isFolder": false,
-            "transformParent": "E:/PixiJS/PixiTest/raw-assets/main{m}/spine/Card.png",
-            "metaData": {},
-            "inheritedMetaData": {
-                "m": true
-            },
-            "transformData": {}
-        },
-        ".assetpack/compress/main{m}/spine/Card.png": {
-            "isFolder": false,
-            "transformParent": ".assetpack/mipmap/main{m}/spine/Card.png",
-            "metaData": {},
-            "inheritedMetaData": {
-                "m": true
-            },
-            "transformData": {}
-        },
-        "E:/PixiJS/PixiTest/public/assets/main/spine/Card.png": {
-            "isFolder": false,
-            "transformParent": ".assetpack/compress/main{m}/spine/Card.png",
-            "metaData": {},
-            "inheritedMetaData": {
-                "m": true
-            },
-            "transformData": {}
-        },
-        ".assetpack/compress/main{m}/spine/Card.webp": {
-            "isFolder": false,
-            "transformParent": ".assetpack/mipmap/main{m}/spine/Card.png",
-            "metaData": {},
-            "inheritedMetaData": {
-                "m": true
-            },
-            "transformData": {}
-        },
-        "E:/PixiJS/PixiTest/public/assets/main/spine/Card.webp": {
-            "isFolder": false,
-            "transformParent": ".assetpack/compress/main{m}/spine/Card.webp",
-            "metaData": {},
-            "inheritedMetaData": {
-                "m": true
-            },
-            "transformData": {}
-        },
-        ".assetpack/mipmap/main{m}/spine/Card@0.5x.png": {
-            "isFolder": false,
-            "transformParent": "E:/PixiJS/PixiTest/raw-assets/main{m}/spine/Card.png",
-            "metaData": {},
-            "inheritedMetaData": {
-                "m": true
-            },
-            "transformData": {}
-        },
-        ".assetpack/compress/main{m}/spine/Card@0.5x.png": {
-            "isFolder": false,
-            "transformParent": ".assetpack/mipmap/main{m}/spine/Card@0.5x.png",
-            "metaData": {},
-            "inheritedMetaData": {
-                "m": true
-            },
-            "transformData": {}
-        },
-        "E:/PixiJS/PixiTest/public/assets/main/spine/Card@0.5x.png": {
-            "isFolder": false,
-            "transformParent": ".assetpack/compress/main{m}/spine/Card@0.5x.png",
-            "metaData": {},
-            "inheritedMetaData": {
-                "m": true
-            },
-            "transformData": {}
-        },
-        ".assetpack/compress/main{m}/spine/Card@0.5x.webp": {
-            "isFolder": false,
-            "transformParent": ".assetpack/mipmap/main{m}/spine/Card@0.5x.png",
-            "metaData": {},
-            "inheritedMetaData": {
-                "m": true
-            },
-            "transformData": {}
-        },
-        "E:/PixiJS/PixiTest/public/assets/main/spine/Card@0.5x.webp": {
-            "isFolder": false,
-            "transformParent": ".assetpack/compress/main{m}/spine/Card@0.5x.webp",
-            "metaData": {},
-            "inheritedMetaData": {
-                "m": true
-            },
-            "transformData": {}
-        },
-        "E:/PixiJS/PixiTest/raw-assets/main{m}/spine/Card.skel": {
-            "isFolder": false,
-            "parent": "E:/PixiJS/PixiTest/raw-assets/main{m}/spine",
-            "metaData": {},
-            "inheritedMetaData": {
-                "m": true
-            },
-            "transformData": {},
-            "stats": {
-                "date": 1770792560096,
-                "duration": 3.944099999964237,
-                "success": true
-            },
-            "hash": "Elje_g"
-        },
-        "E:/PixiJS/PixiTest/public/assets/main/spine/Card.skel": {
-            "isFolder": false,
-            "transformParent": "E:/PixiJS/PixiTest/raw-assets/main{m}/spine/Card.skel",
             "metaData": {},
             "inheritedMetaData": {
                 "m": true

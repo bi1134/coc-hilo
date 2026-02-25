@@ -30,7 +30,7 @@ export function getToken(): { useMock: boolean; token: string } {
 }
 
 export function getBaseUrl(): string {
-  return "https://www.integration-api.net/games/minigames/";
+  return "https://mngs.nasisoto.org/games/minigames/";
   // return "https://mngs.nasisoto.org/games/minigames/";
   // return "http://backend.integration-api.net/games/minigames/";
 }
