@@ -3,6 +3,7 @@ import { IApiClient } from "./IApiClient";
 
 import { getBaseUrl, getToken } from "./ApiRoute";
 
+
 export class ApiClient implements IApiClient {
   private static instance: ApiClient;
 
@@ -120,18 +121,27 @@ export class ApiClient implements IApiClient {
   }
 
   public get<T>(url: string, params?: Record<string, any>): Promise<T> {
-    const query = params ? "?" + new URLSearchParams(params).toString() : "";
+    // Always read token fresh — singleton may have been created before token was in URL
+    const { token } = getToken();
+    const allParams: Record<string, any> = {};
+    if (token) {
+      allParams.token = token;
+    }
+    if (params) {
+      Object.assign(allParams, params);
+    }
+    const query = Object.keys(allParams).length > 0
+      ? "?" + new URLSearchParams(allParams).toString()
+      : "";
     return this.request<T>("GET", url + query);
   }
 
   public post<T>(url: string, body: unknown): Promise<T> {
-    // Inject token into body for all POST requests as required by API spec
-    let finalBody = body;
-    if (this.token && typeof body === 'object' && body !== null) {
-      finalBody = { token: this.token, ...body };
-    } else if (this.token && (body === null || body === undefined || Object.keys(body as object).length === 0)) {
-      finalBody = { token: this.token };
-    }
+    // Always read token fresh — singleton may have been created before token was in URL
+    const { token } = getToken();
+    // Always inject token into body — server requires it in every POST request
+    const safeBody = (typeof body === 'object' && body !== null) ? body : {};
+    const finalBody = token ? { token, ...safeBody } : safeBody;
     return this.request<T>("POST", url, finalBody);
   }
 
