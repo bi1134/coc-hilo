@@ -64,7 +64,7 @@ export class NextScreenMobile extends Container {
           const suitStr = this.numericToSuit(data.last_activity.suit);
           this.layout.currentCard.SetValue(rankStr, suitStr);
           this.multiplierManager.setMultiplier(data.last_activity.multiplier);
-          this.EnterNonBettingState();
+          this.EnterNonBettingState(true); // keepCard=true: don't overwrite resume card
         }
 
         // Set last bet as default input value
@@ -115,7 +115,7 @@ export class NextScreenMobile extends Container {
           // Update multiplier and odds from API
           this.multiplierManager.setMultiplier(data.multiplier);
 
-          this.EnterNonBettingState();
+          this.EnterNonBettingState(true); // keepCard=true: don't overwrite the real API card
         } catch (error) {
           console.error("Bet API error:", error);
           // Error popup is handled by ApiClient
@@ -279,7 +279,7 @@ export class NextScreenMobile extends Container {
 
 
 
-  private EnterNonBettingState() {
+  private EnterNonBettingState(keepCard: boolean = false) {
     GameData.instance.currentState = GameState.NonBetting;
 
     // Force switch back to Spine view
@@ -316,14 +316,17 @@ export class NextScreenMobile extends Container {
       this.layout.cardsContainer.children.length - 1
     );
 
-    // --- randomize the starting card (rank + suit) ---
+    // Only randomize if not keeping the card from API (bet/resume response)
     this.multiplierManager.reset();
     // Default multiplier 1.0, current bet from input
     const currentBet = parseFloat(this.layout.inputBox.value);
     const validBet = isNaN(currentBet) ? GameData.MIN_BET : currentBet;
     this.layout.multiplierBoard.updateValues(this.multiplierManager.currentMultiplier, validBet); // Init board
 
-    this.layout.currentCard.RandomizeValue();
+    if (!keepCard) {
+      // Only randomize when NOT coming from a real API bet/resume
+      this.layout.currentCard.RandomizeValue();
+    }
     this.updateButtonLabels();
 
     this.layout.cardHistoryLayout.addCardToHistory(
@@ -349,7 +352,6 @@ export class NextScreenMobile extends Container {
     this.layout.betButton.setBettingState(false); // Non-Betting -> 1-0, Cash Out
 
     // Set initial cash out value (Start Bet)
-    // Variables currentBet and validBet already declared above
     const initialPayout = validBet * this.multiplierManager.currentMultiplier; // Should be 1.0
 
     const formattedInitial = initialPayout.toLocaleString('de-DE', {
@@ -360,13 +362,11 @@ export class NextScreenMobile extends Container {
 
     this.layout.halfValueButton.interactive = false;
     this.layout.doubleValueButton.interactive = false;
-    this.disableButton(this.layout.betButton); // Cannot cash out immediately on start
+    this.disableButton(this.layout.betButton); // Cashout disabled until player wins a pick (higher/lower)
 
     this.enableButton(this.layout.upButton);
     this.enableButton(this.layout.downButton);
     this.layout.fancySkipButton.interactive = true;
-
-    this.firstLoad = false; // Game has started, switching to Payout mode permanently
 
     this.firstLoad = false; // Game has started, switching to Payout mode permanently
   }
