@@ -751,21 +751,16 @@ export class NextScreenMobile extends Container {
 
       this.vibratePhone(200);
 
-      // Finalize round with backend on loss
+      // Finalize round with backend on loss and sync balance
       try {
-        await GameService.result();
+        const resultRes = await GameService.result();
+        if (resultRes?.data?.balance !== undefined) {
+          GameData.instance.totalMoney = resultRes.data.balance;
+          this.layout.updateMoney(`${resultRes.data.balance.toFixed(2)} `);
+        }
       } catch (resultError) {
         console.warn("Result API error on loss (non-critical):", resultError);
       }
-
-      // After result API, sync balance if possible via lastActivity (non-blocking)
-      GameService.lastActivity().then(res => {
-        if (res?.data?.balance !== undefined) {
-          GameData.instance.totalMoney = res.data.balance;
-          this.layout.updateMoney(`${res.data.balance.toFixed(2)} `);
-        }
-      }).catch(() => { }); // Non-critical
-
       // Enter betting state WITHOUT overriding the YOU LOSE dialog
       // EnterBettingState will say 'Press Bet' but we want YOU LOSE to show briefly first
       setTimeout(() => {
