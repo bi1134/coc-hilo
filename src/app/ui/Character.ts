@@ -267,7 +267,7 @@ export class Character extends Container {
                 animName = AnimationState.Win;
                 break;
             case 'lose':
-                animName = AnimationState.Laugh;
+                animName = AnimationState.Lose;
                 break;
             case 'skip':
                 animName = AnimationState.Skip; // Assuming you have a Skip animation, or maybe use flip? user said "skip then skip state"

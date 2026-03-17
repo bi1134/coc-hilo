@@ -1,6 +1,7 @@
 import { GlareFilter } from "../filters/GlareFilter";
 import { Spine } from "@esotericsoftware/spine-pixi-v8";
 import {
+  ColorMatrixFilter,
   Container,
   PerspectiveMesh,
   Texture,
@@ -540,6 +541,31 @@ export class Card extends Container {
   }
   public cardSize() {
     return { width: this.baseWidth, height: this.baseHeight };
+  }
+
+  private _greyscaleFilter: ColorMatrixFilter | null = null;
+
+  private getGreyscaleFilter(): ColorMatrixFilter {
+    if (!this._greyscaleFilter) {
+      this._greyscaleFilter = new ColorMatrixFilter();
+      this._greyscaleFilter.grayscale(0.35, false);
+    }
+    return this._greyscaleFilter;
+  }
+
+  public setGreyscale(enabled: boolean): void {
+    if (enabled) {
+      const filter = this.getGreyscaleFilter();
+      if (this.spineCard) this.spineCard.filters = [filter];
+      // Replace GlareFilter with greyscale on mesh (glare is inactive during betting)
+      this.mesh.filters = [filter];
+      this.shadow.filters = [filter];
+    } else {
+      if (this.spineCard) this.spineCard.filters = [];
+      // Restore GlareFilter on mesh
+      this.mesh.filters = [this.glareFilter];
+      this.shadow.filters = [];
+    }
   }
 
   // --- public getters ---

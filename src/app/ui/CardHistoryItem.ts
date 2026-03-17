@@ -25,45 +25,58 @@ export class CardHistoryItem extends Container {
     return this._action;
   }
 
+  private _invertActionPlacement: boolean = false;
+
   // public targetX: number = 0; // Removed: Handled by PixiUI List
 
-  constructor(rank: string, suit: string, action: GuessAction, multiplier?: number, isWin?: boolean) {
+  constructor(rank: string, suit: string, action: GuessAction, multiplier?: number, isWin?: boolean, isFaceDown: boolean = false, invertActionPlacement: boolean = false) {
     super();
 
-    // Create inner container for local animations (like "fake position" slide-in)
-    // independent of the parent Layout/List positioning.
+    // --- Create inner container for local animations
     this.innerContainer = new Container();
+    this.innerContainer.sortableChildren = true;
+    this.sortableChildren = true; // Make root sortable too
     this.addChild(this.innerContainer);
 
-    this.Setup(rank, suit, action, multiplier, isWin);
+    this.Setup(rank, suit, action, multiplier, isWin, isFaceDown, invertActionPlacement);
   }
 
-  private Setup(rank: string, suit: string, action: GuessAction, multiplier?: number, isWin?: boolean) {
+  private Setup(rank: string, suit: string, action: GuessAction, multiplier?: number, isWin?: boolean, isFaceDown: boolean = false, invertActionPlacement: boolean = false) {
     // Clear previous if reusing
     this.innerContainer.removeChildren();
+
+    // Remove action sprite if reusing
+    if (this.actionSprite && this.actionSprite.parent) {
+      this.actionSprite.parent.removeChild(this.actionSprite);
+    }
 
     this._rank = rank;
     this._suit = suit;
     this._action = action;
+    this._invertActionPlacement = invertActionPlacement;
 
     // --- tray background (behind card) ---
     const trayTexture = (isWin ?? true) ? "Tray-Green.png" : "Tray-Red.png";
     this.multiplierBackground = Sprite.from(trayTexture);
+    this.multiplierBackground.zIndex = 1;
     this.innerContainer.addChild(this.multiplierBackground);
 
     // --- card sprite ---
-    const textureName = `${this._suit}-card-${this._rank.toLowerCase()}.png`;
-    this.cardSprite = Sprite.from(`${textureName}`);
+    const textureName = isFaceDown ? "card-back.png" : `${this._suit}-card-${this._rank.toLowerCase()}.png`;
+    this.cardSprite = Sprite.from(textureName);
+    this.cardSprite.zIndex = 2;
     this.innerContainer.addChild(this.cardSprite);
 
     // --- action sprite ---
     const actionTexture = this.ActionToIcon(this._action, isWin);
     this.actionSprite = Sprite.from(actionTexture);
+    this.actionSprite.zIndex = 100; // Force to very top locally
     if (this._action === GuessAction.Start) {
       this.actionSprite.alpha = 0;
     }
     this.actionSprite.anchor.set(0.5);
-    this.innerContainer.addChild(this.actionSprite);
+    // Add directly to item root, outside innerContainer to prevent slide-in masking/sorting issues
+    this.addChild(this.actionSprite);
 
     let labelText = "";
     if (action === GuessAction.Start) {
@@ -92,7 +105,14 @@ export class CardHistoryItem extends Container {
         padding: 20, // Prevent clipping
       },
     });
-    this.innerContainer.addChild(this.multiplierTextLabel);
+    this.multiplierTextLabel.zIndex = 100; // Place firmly on top
+    this.addChild(this.multiplierTextLabel);
+
+    if (isFaceDown) {
+      this.multiplierBackground.alpha = 0;
+      this.actionSprite.alpha = 0;
+      this.multiplierTextLabel.alpha = 0;
+    }
 
     this.updateLayout();
   }
@@ -163,7 +183,13 @@ export class CardHistoryItem extends Container {
 
     // Action Sprite (Arrow)
     this.actionSprite.scale.set(3);
-    this.actionSprite.x = this.cardSprite.x - this.cardSprite.width / 1.65;
+    
+    if (this._invertActionPlacement) {
+      this.actionSprite.x = this.cardSprite.x - this.cardSprite.width / 1.65;
+    } else {
+      this.actionSprite.x = this.cardSprite.x + this.cardSprite.width / 1.65;
+    }
+    
     this.actionSprite.y = this.multiplierBackground.y; // Center on card? Or offset?
     // If "action sprite" was the arrow, keeping it centered on card is standard for "Result" overlays.
     this.multiplierTextLabel.position.set(

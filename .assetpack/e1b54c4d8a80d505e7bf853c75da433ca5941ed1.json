@@ -6,8 +6,8 @@
             "inheritedMetaData": {},
             "transformData": {},
             "stats": {
-                "date": 1772701531162,
-                "duration": 297.6345000000438,
+                "date": 1773737021434,
+                "duration": 99.13370000000577,
                 "success": true
             }
         },
@@ -20,8 +20,8 @@
             "inheritedMetaData": {},
             "transformData": {},
             "stats": {
-                "date": 1772701531162,
-                "duration": 297.31019999994896,
+                "date": 1773737021434,
+                "duration": 98.85750000004191,
                 "success": true
             }
         },
@@ -5823,8 +5823,8 @@
             },
             "transformData": {},
             "stats": {
-                "date": 1770107588750,
-                "duration": 0.03919999999970969,
+                "date": 1773737021434,
+                "duration": 98.82750000001397,
                 "success": true
             }
         },
@@ -5951,6 +5951,135 @@
         "E:/PixiJS/PixiTest/public/assets/main/fonts/coccm-bitmap-3-normal@0.5x.webp": {
             "isFolder": false,
             "transformParent": ".assetpack/compress/main{m}/fonts/coccm-bitmap-3-normal@0.5x.webp",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {}
+        },
+        "E:/PixiJS/PixiTest/raw-assets/main{m}/fonts/cocgr-bitmap.fnt": {
+            "isFolder": false,
+            "parent": "E:/PixiJS/PixiTest/raw-assets/main{m}/fonts",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {},
+            "stats": {
+                "date": 1773737021435,
+                "duration": 97.59769999998389,
+                "success": true
+            },
+            "hash": "WcMsMA"
+        },
+        "E:/PixiJS/PixiTest/public/assets/main/fonts/cocgr-bitmap.fnt": {
+            "isFolder": false,
+            "transformParent": "E:/PixiJS/PixiTest/raw-assets/main{m}/fonts/cocgr-bitmap.fnt",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {}
+        },
+        "E:/PixiJS/PixiTest/raw-assets/main{m}/fonts/cocgr-bitmap.png": {
+            "isFolder": false,
+            "parent": "E:/PixiJS/PixiTest/raw-assets/main{m}/fonts",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {},
+            "stats": {
+                "date": 1773737021434,
+                "duration": 581.9553999999771,
+                "success": true
+            },
+            "hash": "K-iBbA"
+        },
+        ".assetpack/mipmap/main{m}/fonts/cocgr-bitmap.png": {
+            "isFolder": false,
+            "transformParent": "E:/PixiJS/PixiTest/raw-assets/main{m}/fonts/cocgr-bitmap.png",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {}
+        },
+        ".assetpack/compress/main{m}/fonts/cocgr-bitmap.png": {
+            "isFolder": false,
+            "transformParent": ".assetpack/mipmap/main{m}/fonts/cocgr-bitmap.png",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {}
+        },
+        "E:/PixiJS/PixiTest/public/assets/main/fonts/cocgr-bitmap.png": {
+            "isFolder": false,
+            "transformParent": ".assetpack/compress/main{m}/fonts/cocgr-bitmap.png",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {}
+        },
+        ".assetpack/compress/main{m}/fonts/cocgr-bitmap.webp": {
+            "isFolder": false,
+            "transformParent": ".assetpack/mipmap/main{m}/fonts/cocgr-bitmap.png",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {}
+        },
+        "E:/PixiJS/PixiTest/public/assets/main/fonts/cocgr-bitmap.webp": {
+            "isFolder": false,
+            "transformParent": ".assetpack/compress/main{m}/fonts/cocgr-bitmap.webp",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {}
+        },
+        ".assetpack/mipmap/main{m}/fonts/cocgr-bitmap@0.5x.png": {
+            "isFolder": false,
+            "transformParent": "E:/PixiJS/PixiTest/raw-assets/main{m}/fonts/cocgr-bitmap.png",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {}
+        },
+        ".assetpack/compress/main{m}/fonts/cocgr-bitmap@0.5x.png": {
+            "isFolder": false,
+            "transformParent": ".assetpack/mipmap/main{m}/fonts/cocgr-bitmap@0.5x.png",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {}
+        },
+        "E:/PixiJS/PixiTest/public/assets/main/fonts/cocgr-bitmap@0.5x.png": {
+            "isFolder": false,
+            "transformParent": ".assetpack/compress/main{m}/fonts/cocgr-bitmap@0.5x.png",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {}
+        },
+        ".assetpack/compress/main{m}/fonts/cocgr-bitmap@0.5x.webp": {
+            "isFolder": false,
+            "transformParent": ".assetpack/mipmap/main{m}/fonts/cocgr-bitmap@0.5x.png",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {}
+        },
+        "E:/PixiJS/PixiTest/public/assets/main/fonts/cocgr-bitmap@0.5x.webp": {
+            "isFolder": false,
+            "transformParent": ".assetpack/compress/main{m}/fonts/cocgr-bitmap@0.5x.webp",
             "metaData": {},
             "inheritedMetaData": {
                 "m": true

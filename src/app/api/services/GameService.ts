@@ -13,7 +13,6 @@ export class GameService {
   // Track mock game state
   private static mockMultiplier: number = 1.0;
   private static mockBetAmount: number = 0;
-  private static mockCurrentRank: number = 1; // Track current card rank for comparison
 
   public static async lastActivity(): Promise<LastActivityApiResponse> {
     const res = await ApiClient.get(ApiRoute.LAST_ACTIVITY);
@@ -49,7 +48,7 @@ export class GameService {
 
       // Generate and store the initial card rank
       const newRank = this.randomRank();
-      this.mockCurrentRank = newRank;
+
 
       const response: BetApiResponse = {
         data: {
@@ -158,29 +157,12 @@ export class GameService {
         break;
 
       case "higher":
-        // Strict: new > previous
-        isWin = newRank > previousRank;
-        break;
-
-      case "lower":
-        // Strict: new < previous
-        isWin = newRank < previousRank;
-        break;
-
-      case "equal":
-        // Strict: new == previous
-        isWin = newRank === previousRank;
-        break;
-
-      case "higher_equal":
-      case "higherOrEqual":
-        // Inclusive: new >= previous
+        // Higher or equal (matches backend behavior)
         isWin = newRank >= previousRank;
         break;
 
-      case "lower_equal":
-      case "lowerOrEqual":
-        // Inclusive: new <= previous
+      case "lower":
+        // Lower or equal (matches backend behavior)
         isWin = newRank <= previousRank;
         break;
 
@@ -213,20 +195,6 @@ export class GameService {
         end_round: endRound,
       }
     };
-  }
-
-  /**
-   * Compare two ranks. Returns:
-   * - Positive if rank1 > rank2
-   * - Negative if rank1 < rank2
-   * - Zero if equal
-   * 
-   * Order: A(1) < 2 < 3 < ... < Q(12) < K(13)
-   * K is HIGHEST, A is LOWEST
-   */
-  private static compareRanks(rank1: number, rank2: number): number {
-    // Simple numeric comparison - rank values already match order
-    return rank1 - rank2;
   }
 
   private static randomRank(): number {

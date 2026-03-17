@@ -379,7 +379,9 @@ export class HisotryPopupItem extends Container {
             suitStr,
             guessAction,
             mult,
-            isWin
+            isWin,
+            false, // isFaceDown
+            true   // invertActionPlacement
           );
 
           cardItem.scale.set(CARD_SCALE);

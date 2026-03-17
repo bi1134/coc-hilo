@@ -1,6 +1,6 @@
 import { Container, Graphics, NineSliceSprite, Texture } from "pixi.js";
 import { gsap } from "gsap";
-import { List } from "@pixi/ui";
+import { List } from "@pixi/ui"; // Keeping just in case other things use it quietly, actually better to remove. Wait, I will remove it.
 import { CardHistoryItem } from "../../../ui/CardHistoryItem";
 import { GuessAction } from "../types/GameTypes";
 
@@ -61,7 +61,7 @@ class GapContainer extends Container {
 export class CardHistoryLayout extends Container {
   private cardsHistoryBackground!: NineSliceSprite;
   private cardsHistoryMask!: Graphics;
-  public list!: List;
+  public list!: Container;
   public listYOffset: number = 0;
   public listXOffset: number = 0;
   public pushBackPadding: number = 0; // Padding from bottom when scrolling up (overflow)
@@ -120,11 +120,8 @@ export class CardHistoryLayout extends Container {
     // Apply mask ONLY to the list, so background remains visible
     // this.mask = this.cardsHistoryMask; 
 
-    // --- Create List ---
-    this.list = new List({
-      type: this.options.type ?? "horizontal",
-      elementsMargin: 0,
-    });
+    // --- Create Container (Replacing List to decouple Z-index sorting from X/Y Layout) ---
+    this.list = new Container();
 
     this.list.mask = this.cardsHistoryMask;
 
@@ -141,10 +138,12 @@ export class CardHistoryLayout extends Container {
     itemScale?: number,
     multiplier?: number,
     isWin?: boolean,
-    animateSlide: boolean = true
+    animateSlide: boolean = true,
+    isFaceDown: boolean = false,
+    instantLayout: boolean = false
   ) {
     // 1. Create New Item
-    const item = new CardHistoryItem(value, suit, action, multiplier, isWin);
+    const item = new CardHistoryItem(value, suit, action, multiplier, isWin, isFaceDown);
 
 
     const finalScale = itemScale ?? 1;
@@ -158,7 +157,11 @@ export class CardHistoryLayout extends Container {
 
     // 0. Scale down previous newest item (if exists)
     if (this.list.children.length > 0) {
-      const lastWrapper = this.list.children[this.list.children.length - 1] as Container;
+      // Because we now ALWAYS physically add new items to the END of the `list.children` 
+      // array to force them to render on top, the previous newest item is ALWAYS the last item.
+      const prevIndex = this.list.children.length - 1;
+
+      const lastWrapper = this.list.children[prevIndex] as Container;
       if (lastWrapper && lastWrapper.children.length > 0) {
         const prevItem = lastWrapper.children[0];
         gsap.to(prevItem.scale, {
@@ -185,8 +188,54 @@ export class CardHistoryLayout extends Container {
     const wrapper = new GapContainer(leftPad, rightPad, this.options.type ?? 'horizontal');
     wrapper.addItem(item, itemWidth, itemHeight);
 
-    // 3. Add to List
-    this.list.addChild(wrapper); // Adds to end
+    // Stop previous scroll animation if any to prevent fighting
+    if (this.currentListScrollAnim) {
+      this.currentListScrollAnim.kill();
+      this.currentListScrollAnim = null;
+    }
+
+    // 3. Add to Container and Layout
+    // We ALWAYS add to the end of the container so the newest element ALWAYS renders ON TOP.
+    this.list.addChild(wrapper);
+
+    // Manually layout children to replicate List behavior but decoupled from render order
+    let currentX = 0;
+    let currentY = 0;
+
+    if (this.options.type === 'horizontal') {
+      if (this.options.direction === 'ltr') {
+        // Reverse iterate to place newest at 0, older to the right
+        for (let i = this.list.children.length - 1; i >= 0; i--) {
+          const child = this.list.children[i];
+          child.x = currentX;
+          currentX += child.width;
+        }
+        // Offset list to animate sliding
+        this.list.x -= wrapper.width;
+      } else {
+        // Standard RTL
+        for (let i = 0; i < this.list.children.length; i++) {
+          const child = this.list.children[i];
+          child.x = currentX;
+          currentX += child.width;
+        }
+      }
+    } else {
+      if (this.options.direction === 'ttb') {
+        for (let i = this.list.children.length - 1; i >= 0; i--) {
+          const child = this.list.children[i];
+          child.y = currentY;
+          currentY += child.height;
+        }
+        this.list.y -= wrapper.height;
+      } else {
+        for (let i = 0; i < this.list.children.length; i++) {
+          const child = this.list.children[i];
+          child.y = currentY;
+          currentY += child.height;
+        }
+      }
+    }
 
     // 4. Trigger Item Entry Animations
     // "Pop In"
@@ -198,7 +247,7 @@ export class CardHistoryLayout extends Container {
     item.y = centerOffset; // Set initial Y to target offset so it doesn't jump?
     // Actually we animate entry.
 
-    const popDuration = 0.3;
+    const popDuration = instantLayout ? 0 : 0.3;
 
     const animAlpha = gsap.to(item, {
       alpha: 1,
@@ -245,11 +294,10 @@ export class CardHistoryLayout extends Container {
     if (animateSlide) {
       let slideOffset = 0;
       if (this.options.type === 'vertical') {
-        // Slide in from bottom
-        slideOffset = itemHeight + 20;
+        slideOffset = this.options.direction === 'ttb' ? -itemHeight - 20 : itemHeight + 20;
         item.animateEntry(slideOffset, 0.3);
       } else {
-        slideOffset = itemWidth * 2;
+        slideOffset = this.options.direction === 'ltr' ? -itemWidth * 2 : itemWidth * 2;
         item.animateEntry(slideOffset, 0.3);
       }
     }
@@ -294,27 +342,25 @@ export class CardHistoryLayout extends Container {
       const visibleWidth = this.cardsHistoryBackground.width;
       const visibleHeight = this.cardsHistoryBackground.height;
 
-      // Stop previous scroll animation if any to prevent fighting
-      if (this.currentListScrollAnim) {
-        this.currentListScrollAnim.kill();
-        this.currentListScrollAnim = null;
-      }
-
       if (this.options.type === 'vertical') {
         // Vertical Logic
         let finalY = this.listStartPadding;
 
-        // Check for Overflow
-        if (listHeight + this.listStartPadding * 2 <= visibleHeight) {
-          finalY = this.listStartPadding; // Align Top
+        if (this.options.direction === 'ttb') {
+          finalY = this.listStartPadding;
         } else {
-          // Align Bottom / Scroll Up
-          finalY = visibleHeight - listHeight - this.pushBackPadding;
+          // Check for Overflow
+          if (listHeight + this.listStartPadding * 2 <= visibleHeight) {
+            finalY = this.listStartPadding; // Align Top
+          } else {
+            // Align Bottom / Scroll Up
+            finalY = visibleHeight - listHeight - this.pushBackPadding;
+          }
         }
 
         this.currentListScrollAnim = gsap.to(this.list, {
           y: finalY + this.listYOffset,
-          duration: 0.3,
+          duration: instantLayout ? 0 : 0.3,
           ease: "back.out",
         });
 
@@ -323,18 +369,23 @@ export class CardHistoryLayout extends Container {
         this.list.x = visibleWidth / 2 - itemWidth / 2 + this.listXOffset;
 
       } else {
-        // Horizontal Logic (unchanged mostly)
+        // Horizontal Logic
         // Use itemHeight (target height) instead of item.heightScaled (current animating height) to prevent jumping
         this.list.y =
           visibleHeight / 2 - itemHeight / 2 + this.listYOffset; // Approximate centering
 
-        const desiredX = visibleWidth - listWidth - this.pushBackPadding;
-        // Use direction options if strictly needed, but assuming RTL push behavior for horizontal
-        const finalX = Math.min(this.listStartPadding, desiredX);
+        let finalX = this.listStartPadding;
+
+        if (this.options.direction === 'ltr') {
+          finalX = this.listStartPadding;
+        } else {
+          const desiredX = visibleWidth - listWidth - this.pushBackPadding;
+          finalX = Math.min(this.listStartPadding, desiredX);
+        }
 
         this.currentListScrollAnim = gsap.to(this.list, {
           x: finalX + this.listXOffset,
-          duration: 0.3,
+          duration: instantLayout ? 0 : 0.3,
           ease: "back.out",
         });
       }
@@ -377,17 +428,18 @@ export class CardHistoryLayout extends Container {
     this.cardsHistoryBackground.height = height;
 
     // --- Update mask to match background ---
-    // We add a small left padding to the MASK to cleanly clip any overflowing items on the left
-    // This resolves the "partial 6th card" issue by hiding it earlier.
+    // We add a small left padding to the MASK to cleanly clip any overflowing items on the left.
+    // To change where the mask cuts off on the RIGHT side, modify `maskRightExtension` below.
+    // 0 = cuts off exactly at the border. 100 = lets cards overlap 100px past the background edge.
     const maskLeftPadding = 3;
-    const maskRightExtension = 100; // Extend mask to the right
+    const maskRightExtension = -5; // <--- Change this to hide cards sliding off the right side
 
     this.cardsHistoryMask
       .clear()
       .rect(
         maskLeftPadding,
         -50,
-        width + maskRightExtension,
+        width + maskRightExtension, // Right boundary logic
         height + 150, // height + bottom buffer + top buffer compensation
       )
       .fill(0xffffff);
@@ -403,21 +455,25 @@ export class CardHistoryLayout extends Container {
 
       const contentHeight = this.list.height; // approximate content height
 
-      // If content fits within visible height, align top.
-      // If content exceeds visible height, align bottom to match "push up" behavior.
-      if (contentHeight + padding * 2 <= height) {
-        finalY = padding; // Start from top
+      if (this.options.direction === 'ttb') {
+        finalY = padding;
       } else {
-        // Overflow: Scroll to bottom (show newest items at bottom)
-        // y = maxY = height - listHeight - padding
-        finalY = height - contentHeight - this.pushBackPadding;
+        // If content fits within visible height, align top.
+        // If content exceeds visible height, align bottom to match "push up" behavior.
+        if (contentHeight + padding * 2 <= height) {
+          finalY = padding; // Start from top
+        } else {
+          // Overflow: Scroll to bottom (show newest items at bottom)
+          // y = maxY = height - listHeight - padding
+          finalY = height - contentHeight - this.pushBackPadding;
+        }
       }
 
       this.list.y = finalY + this.listYOffset;
     } else {
       // Horizontal Logic
       // 1. Center Y
-      // Use first child height for more stable centering if available, else list.height
+      // Use first child height for more stable centering if available, else container height
       const childHeight = this.list.children.length > 0 ? this.list.children[0].height : this.list.height;
       this.list.y = height / 2 - childHeight / 2 + this.listYOffset;
 
@@ -426,12 +482,16 @@ export class CardHistoryLayout extends Container {
 
       const contentWidth = this.list.width;
 
-      if (contentWidth + padding * 2 <= width) {
+      if (this.options.direction === 'ltr') {
         finalX = padding;
       } else {
-        // Align to the extended right edge
-        const effectiveWidth = width + maskRightExtension;
-        finalX = effectiveWidth - contentWidth - this.pushBackPadding;
+        if (contentWidth + padding * 2 <= width) {
+          finalX = padding;
+        } else {
+          // Align to the extended right edge
+          const effectiveWidth = width + maskRightExtension;
+          finalX = effectiveWidth - contentWidth - this.pushBackPadding;
+        }
       }
 
       this.list.x = finalX + this.listXOffset;

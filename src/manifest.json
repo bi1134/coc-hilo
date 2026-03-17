@@ -975,6 +975,37 @@
         },
         {
           "alias": [
+            "main/fonts/cocgr-bitmap.fnt",
+            "cocgr-bitmap.fnt"
+          ],
+          "src": [
+            "main/fonts/cocgr-bitmap.fnt"
+          ],
+          "data": {
+            "tags": {
+              "m": true
+            }
+          }
+        },
+        {
+          "alias": [
+            "main/fonts/cocgr-bitmap.png",
+            "cocgr-bitmap.png"
+          ],
+          "src": [
+            "main/fonts/cocgr-bitmap@0.5x.webp",
+            "main/fonts/cocgr-bitmap@0.5x.png",
+            "main/fonts/cocgr-bitmap.webp",
+            "main/fonts/cocgr-bitmap.png"
+          ],
+          "data": {
+            "tags": {
+              "m": true
+            }
+          }
+        },
+        {
+          "alias": [
             "main/fonts/SVN-Supercell Magic.otf",
             "SVN-Supercell Magic.otf"
           ],

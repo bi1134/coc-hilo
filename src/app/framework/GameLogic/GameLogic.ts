@@ -1,6 +1,6 @@
 import { FancyButton } from "@pixi/ui";
 import { Spine } from "@esotericsoftware/spine-pixi-v8";
-import { Container, Sprite } from "pixi.js";
+import { ColorMatrixFilter, Container, Sprite } from "pixi.js";
 import { gsap } from "gsap";
 import { BitmapLabel } from "../../ui/BitmapLabel";
 import { Card, CardSuit } from "../../ui/Card";
@@ -72,8 +72,8 @@ export class GameLogic extends Container {
         this.lowerGlow.state.setAnimation(0, "low-button", true);
         this.lowerGlow.alpha = 0;
 
-        // Add glows behind the buttons
-        this.buttonsContainer.addChild(this.higherGlow, this.lowerGlow, this.upButton, this.downButton);
+        // Add buttons first, then glows on top as effects
+        this.buttonsContainer.addChild(this.upButton, this.downButton, this.higherGlow, this.lowerGlow);
 
         // --- labels and descriptions ---
         this.titleHigh = new BitmapLabel({
@@ -201,7 +201,7 @@ export class GameLogic extends Container {
         // Or perhaps just removing the overrides.
         // Let's assume natural size is desired.
         this.fancySkipButton.scale.set(1);
-        this.fancySkipButton.x = this.cardsContainer.x + this.skipButtonText.width / 2;
+        this.fancySkipButton.x = this.backCard.x + this.backCard.width / 2;
         this.fancySkipButton.y = this.backCard.y + this.backCard.height - padding / 3;
 
         // Ensure skip button is always on top
@@ -305,8 +305,34 @@ export class GameLogic extends Container {
         const cardAreaBottom = this.buttonsContainer.y + this.lowDes.y + this.lowDes.height;
         this.cardHistoryLayout.y = cardAreaBottom + padding * 10;
 
+        this.cardHistoryLayout.listXOffset = 25;
         this.cardHistoryLayout.pushBackPadding = -25;
 
+    }
+
+    private static grayscaleFilter: ColorMatrixFilter | null = null;
+
+    public static getGrayscaleFilter(): ColorMatrixFilter {
+        if (!GameLogic.grayscaleFilter) {
+            GameLogic.grayscaleFilter = new ColorMatrixFilter();
+            GameLogic.grayscaleFilter.grayscale(0.35, false);
+            GameLogic.grayscaleFilter.padding = 20;
+        }
+        return GameLogic.grayscaleFilter;
+    }
+
+    public setGreyscale(enabled: boolean) {
+        const filter = enabled ? [GameLogic.getGrayscaleFilter()] : [];
+        this.upButton.filters = filter;
+        this.downButton.filters = filter;
+        this.titleHigh.filters = filter;
+        this.titleLow.filters = filter;
+        this.highDes.filters = filter;
+        this.lowDes.filters = filter;
+        this.highIcon.filters = filter;
+        this.lowIcon.filters = filter;
+        this.fancySkipButton.filters = filter;
+        this.currentCard.setGreyscale(enabled);
     }
 
     /**

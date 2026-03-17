@@ -23,6 +23,12 @@ export class NextScreenMobile extends Container {
   private firstLoad: boolean = true;
   private isProcessingAction: boolean = false;
 
+  // --- Dummy Proxy Card Injection State ---
+  private dummyInjectionActive: boolean = false;
+  private dummyCardsTarget: number = 0;
+  private dummyCardsInjected: number = 0;
+  private dummyDelayMs: number = 100;
+
   constructor() {
     super();
     this.multiplierManager = new MultiplierManager();
@@ -102,31 +108,32 @@ export class NextScreenMobile extends Container {
           // Format: "n-4-11-0.00" → action-suit-rank-multiplier
           // EnterNonBettingState already cleared history, so no clearHistory() needed here.
           if (activity.history_cards && activity.history_cards.length > 0) {
-            for (const cardStr of activity.history_cards) {
-              const parts = cardStr.split("-");
-              if (parts.length >= 4) {
-                const actionCode = parts[0]; // n, s, h, l
-                const suitNum = parseInt(parts[1]);
-                const rankNum = parseInt(parts[2]);
-                const mult = parseFloat(parts[3]);
-
-                const hRank = this.numericToRank(rankNum);
-                const hSuit = this.numericToSuit(suitNum);
-                const hAction = this.historyCodeToGuessAction(actionCode);
-                const isWin = actionCode !== 'l'; // 'l' = lower = lost
-
-                const isStartCard = hAction === GuessAction.Start;
-                const leftPad = isStartCard ? 0 : -20;
-
-                this.layout.cardHistoryLayout.addCardToHistory(
-                  hRank, hSuit, hAction, leftPad, -5, 1, 0.35, mult, isWin, false
-                );
-
-                GameData.instance.addCardHistory(
-                  hRank, hSuit, hAction, mult
-                );
-              }
+            
+            // Check if we need to pad the visual layout with dummy cards (User requested minimum 6 objects on screen)
+            const requiredVisCards = 6;
+            const dummyPaddingCount = requiredVisCards - activity.history_cards.length;
+            
+            if (dummyPaddingCount > 0) {
+              await this.injectDummyCards(dummyPaddingCount, 100);
             }
+
+            // Begin staggering real cards. Use the same async boolean so user actions (Bet/High/Low) can instantly skip the stagger.
+            this.dummyInjectionActive = true;
+
+            for (let i = 0; i < activity.history_cards.length; i++) {
+              if (!this.dummyInjectionActive) {
+                // If user pressed a button, instantly dump the rest of the array onto the board
+                for (let j = i; j < activity.history_cards.length; j++) {
+                  this.processHistoryCardString(activity.history_cards[j], true); // true = instant layout
+                }
+                break;
+              }
+
+              this.processHistoryCardString(activity.history_cards[i], false); // false = async layout
+              await new Promise(resolve => setTimeout(resolve, this.dummyDelayMs)); // staggered delay loop
+            }
+
+            this.dummyInjectionActive = false; // complete
           }
 
           // Enable cashout if there are winnings to collect
@@ -158,11 +165,43 @@ export class NextScreenMobile extends Container {
           }
           // Character greets normally
           this.layout.gameInfo.knightCharacter.say("Press Bet \n to Start");
+
+          // Inject facedown proxy cards logically to provide a placeholder trail initially with a tiny stagger
+          await this.injectDummyCards(5, 100);
         }
       }
     } catch (error) {
       console.error("Failed to load player data from API:", error);
       this.layout.updateMoney(`${GameData.instance.totalMoney.toFixed(2)} `);
+    }
+  }
+
+  /**
+   * Helper to parse and render a single history_cards string during api reloads
+   */
+  private processHistoryCardString(cardStr: string, instantLayout: boolean) {
+    const parts = cardStr.split("-");
+    if (parts.length >= 4) {
+      const actionCode = parts[0]; // n, s, h, l
+      const suitNum = parseInt(parts[1]);
+      const rankNum = parseInt(parts[2]);
+      const mult = parseFloat(parts[3]);
+
+      const hRank = this.numericToRank(rankNum);
+      const hSuit = this.numericToSuit(suitNum);
+      const hAction = this.historyCodeToGuessAction(actionCode);
+      const isWin = actionCode !== 'l'; // 'l' = lower = lost
+
+      const isStartCard = hAction === GuessAction.Start;
+      const leftPad = isStartCard ? 0 : -20;
+
+      this.layout.cardHistoryLayout.addCardToHistory(
+        hRank, hSuit, hAction, leftPad, -5, 1, 0.35, mult, isWin, false, instantLayout, false
+      );
+
+      GameData.instance.addCardHistory(
+        hRank, hSuit, hAction, mult
+      );
     }
   }
 
@@ -186,6 +225,7 @@ export class NextScreenMobile extends Container {
     this.layout.downButton.onPress.connect(() => this.LowerButton());
     this.layout.fancySkipButton.onPress.connect(() => this.SkipButton());
     this.layout.betButton.onPress.connect(async () => {
+      this.finishDummyInjection(); // instantly flush proxy cards if still staggering in
       if (this.isProcessingAction) return;
       this.isProcessingAction = true;
       try {
@@ -225,14 +265,21 @@ export class NextScreenMobile extends Container {
           // API bet returns multiplier 0. We start at 1.0 internally.
           this.multiplierManager.setMultiplier(1.0);
 
-          this.EnterNonBettingState(true); // keepCard=true: don't overwrite the real API card
+          const hasRealCards = GameData.instance.cardHistory.length > 0;
+
+          this.EnterNonBettingState(true, !hasRealCards); // keepCard=true: don't overwrite the real API card, keepHistory if we already have dummies
+
+          // If the history previously contained a lost game (real cards), we just wiped it and need to inject fresh proxy cards gracefully before the real start card.
+          if (hasRealCards) {
+            await this.injectDummyCards(5, 100);
+          }
 
           // Always add the initial dealt card to history (even with keepCard)
           this.layout.cardHistoryLayout.addCardToHistory(
             this.layout.currentCard.rank,
             this.layout.currentCard.suit,
             GuessAction.Start,
-            0, -5, 1, 0.35,
+            -20, -5, 1, 0.35,
             this.multiplierManager.currentMultiplier,
             true,
             false // no slide animation for the very first card if it's already centered
@@ -270,6 +317,7 @@ export class NextScreenMobile extends Container {
   }
 
   private async HigherButton() {
+    this.finishDummyInjection();
     if (this.isProcessingAction) return;
     this.isProcessingAction = true;
     try {
@@ -284,6 +332,7 @@ export class NextScreenMobile extends Container {
   }
 
   private async LowerButton() {
+    this.finishDummyInjection();
     if (this.isProcessingAction) return;
     this.isProcessingAction = true;
     try {
@@ -298,6 +347,7 @@ export class NextScreenMobile extends Container {
   }
 
   private async SkipButton() {
+    this.finishDummyInjection();
     if (this.isProcessingAction) return;
     this.isProcessingAction = true;
     try {
@@ -444,17 +494,19 @@ export class NextScreenMobile extends Container {
 
 
 
-  private EnterNonBettingState(keepCard: boolean = false) {
+  private EnterNonBettingState(keepCard: boolean = false, keepHistory: boolean = false) {
     GameData.instance.currentState = GameState.NonBetting;
 
     // Force switch back to Spine view
     this.layout.currentCard.resetToIdle();
 
-    GameData.instance.currentState = GameState.NonBetting;
+    // Remove greyscale from hi/lo buttons and card
+    this.layout.gameLogic.setGreyscale(false);
 
-
-    //clear card history
-    this.layout.cardHistoryLayout.clearHistory();
+    if (!keepHistory) {
+      //clear card history
+      this.layout.cardHistoryLayout.clearHistory();
+    }
     GameData.instance.resetGameSession();
 
     //prepare for new round
@@ -505,7 +557,7 @@ export class NextScreenMobile extends Container {
         this.layout.currentCard.rank,
         this.layout.currentCard.suit,
         GuessAction.Start,
-        0,
+        -20,
         -5,
         1,
         0.35,
@@ -578,10 +630,50 @@ export class NextScreenMobile extends Container {
 
     this.layout.fancySkipButton.interactive = false;
 
+    // Greyscale hi/lo buttons and card to emphasize loss / betting state
+    this.layout.gameLogic.setGreyscale(true);
+
+    // Reset combo glow effects
+    this.layout.gameLogic.updateButtonGlows(null, 0);
+
     // Note: do NOT say anything here — the caller (CashOut / loss handler)
     // is responsible for making the character speak before entering betting state.
     this.updateButtonLabels();
-    this.layout.gameLogic.updateButtonGlows(this.multiplierManager.comboDirection, this.multiplierManager.comboStreak);
+  }
+
+  private async injectDummyCards(count: number = 5, delayMs: number = 100) {
+    this.finishDummyInjection(); // Cancel any existing
+
+    this.dummyInjectionActive = true;
+    this.dummyCardsTarget = count;
+    this.dummyCardsInjected = 0;
+    this.dummyDelayMs = delayMs;
+
+    while (this.dummyInjectionActive && this.dummyCardsInjected < this.dummyCardsTarget) {
+      this.layout.cardHistoryLayout.addCardToHistory(
+        "A", "spades", GuessAction.Start, -20, -5, 1, 0.35, 1.0, true, false, true, false
+      );
+      this.dummyCardsInjected++;
+
+      if (this.dummyCardsInjected < this.dummyCardsTarget && this.dummyInjectionActive) {
+        await new Promise(resolve => setTimeout(resolve, this.dummyDelayMs)); // staggered delay loop
+      }
+    }
+    this.dummyInjectionActive = false;
+  }
+
+  private finishDummyInjection() {
+    if (this.dummyInjectionActive) {
+      this.dummyInjectionActive = false; // Stop the async loop from continuing
+      
+      // Instantly inject the remaining cards
+      while (this.dummyCardsInjected < this.dummyCardsTarget) {
+        this.layout.cardHistoryLayout.addCardToHistory(
+          "A", "spades", GuessAction.Start, -20, -5, 1, 0.35, 1.0, true, false, true, true // instantLayout=true
+        );
+        this.dummyCardsInjected++;
+      }
+    }
   }
 
   //#endregion
@@ -612,10 +704,13 @@ export class NextScreenMobile extends Container {
       GameData.instance.addRoundResult(multiplier, true, base);
       const historyItem = this.layout.gameHistory.addResult(multiplier, true);
 
-      // Silently fetch the real transaction ID from history
-      GameService.history(1).then(res => {
-        if (res.data && res.data[0]) historyItem.txId = res.data[0].bet_id || res.data[0].txId;
-      }).catch(e => console.warn("Failed to retroactive load history ID:", e));
+      // Silently fetch the real transaction ID from history after a short delay
+      // to guarantee the backend database has fully committed the round result.
+      setTimeout(() => {
+        GameService.history(1).then(res => {
+          if (res.data && res.data[0]) historyItem.txId = res.data[0].bet_id || res.data[0].txId;
+        }).catch(e => console.warn("Failed to retroactive load history ID:", e));
+      }, 1500);
 
       // Try to get updated balance from result API (authoritative end of round)
       try {
@@ -638,7 +733,11 @@ export class NextScreenMobile extends Container {
 
       // Clear history bar and reset predictions to 0x after entering betting state
       this.layout.cardHistoryLayout.clearHistory();
+      GameData.instance.resetGameSession();
       this.layout.gameInfo.updatePredictions(0, 0);
+
+      // Inject dummy cards gracefully
+      this.injectDummyCards(5, 100);
     } catch (error) {
       console.error("Cashout API error:", error);
       // Error popup is handled by ApiClient
@@ -688,7 +787,6 @@ export class NextScreenMobile extends Container {
       button.setEnabled(false);
     } else {
       button.interactive = false;
-      button.alpha = 0.75;
     }
   }
 
@@ -831,10 +929,13 @@ export class NextScreenMobile extends Container {
       GameData.instance.addRoundResult(0, false, lostAmount);
       const historyItem = this.layout.gameHistory.addResult(0, false);
 
-      // Silently fetch the real transaction ID from history
-      GameService.history(1).then(res => {
-        if (res.data && res.data[0]) historyItem.txId = res.data[0].bet_id || res.data[0].txId;
-      }).catch(e => console.warn("Failed to retroactive load history ID:", e));
+      // Silently fetch the real transaction ID from history after a short delay
+      // to guarantee the backend database has fully committed the round result.
+      setTimeout(() => {
+        GameService.history(1).then(res => {
+          if (res.data && res.data[0]) historyItem.txId = res.data[0].bet_id || res.data[0].txId;
+        }).catch(e => console.warn("Failed to retroactive load history ID:", e));
+      }, 1500);
 
       this.layout.gameInfo.knightCharacter.playState('lose');
       this.layout.gameInfo.knightCharacter.say('YOU LOSE!');

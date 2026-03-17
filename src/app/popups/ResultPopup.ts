@@ -25,6 +25,8 @@ export class ResultPopup extends Container {
 
   private resultLabel: BitmapLabel;
 
+  private youWinLabel: BitmapLabel;
+
   private invisButton: FancyButton;
 
   // Container for safe area scaling
@@ -66,7 +68,7 @@ export class ResultPopup extends Container {
 
     this.title = new BitmapLabel({
       text: "1.25x",
-      style: { fill: 0xec1561, fontSize: 40, fontFamily: "coccm-bitmap-3-normal", letterSpacing: -2 },
+      style: { fontSize: 30, fontFamily: "cocgr-bitmap", letterSpacing: -2 },
     });
     this.title.y = -80;
     this.panel.addChild(this.title);
@@ -86,6 +88,20 @@ export class ResultPopup extends Container {
     });
     this.resultLabel.anchor.set(0.5);
     this.panel.addChild(this.resultLabel);
+
+    // --- you win label ---
+    this.youWinLabel = new BitmapLabel({
+      text: "You Win!", // placeholder
+      style: {
+        fill: 0xffffff,
+        fontSize: 40,
+        fontFamily: "coccm-bitmap-3-normal",
+        align: "center",
+        letterSpacing: -2,
+      },
+    });
+    this.youWinLabel.anchor.set(0.5);
+    this.panel.addChild(this.youWinLabel);
 
     this.invisButton = new FancyButton({
       defaultView: "rounded-rectangle.png",
@@ -142,7 +158,10 @@ export class ResultPopup extends Container {
 
     this.title.x = 0;
     // Put title near top of spine
-    this.title.y = 200; // Padding from top edge
+    this.title.y = 80; // Padding from top edge
+
+    this.youWinLabel.x = 0;
+    this.youWinLabel.y = 180; // Padding from top edge
 
     this.resultLabel.x = 0;
     this.resultLabel.y = 250; // Slightly below center? Or bottom?
@@ -175,6 +194,11 @@ export class ResultPopup extends Container {
       gsap.to(this.title.scale, { x: 1, y: 1, duration: 0.2, ease: "back.out(2)" });
 
       gsap.delayedCall(0.1, () => {
+        gsap.to(this.youWinLabel, { alpha: 1, duration: 0.1 });
+        gsap.to(this.youWinLabel.scale, { x: 1, y: 1, duration: 0.2, ease: "back.out(2)" });
+      });
+
+      gsap.delayedCall(0.2, () => {
         gsap.to(this.resultLabel, { alpha: 1, duration: 0.1 });
         gsap.to(this.resultLabel.scale, { x: 1, y: 1, duration: 0.2, ease: "back.out(2)" });
       });
@@ -209,18 +233,23 @@ export class ResultPopup extends Container {
     this.visible = true;
 
     // Reset text visibility
-    // Reset text visibility
     this.title.alpha = 0;
     this.title.scale.set(0);
     this.resultLabel.alpha = 0;
     this.resultLabel.scale.set(0);
+    this.youWinLabel.alpha = 0;
+    this.youWinLabel.scale.set(0);
 
     if (this.panelBase) {
       this.runAppearAnimation();
     } else {
       // Fallback if spine not loaded
       this.title.alpha = 1;
+      this.title.scale.set(1);
       this.resultLabel.alpha = 1;
+      this.resultLabel.scale.set(1);
+      this.youWinLabel.alpha = 1;
+      this.youWinLabel.scale.set(1);
     }
 
     // --- Background fade in ---
