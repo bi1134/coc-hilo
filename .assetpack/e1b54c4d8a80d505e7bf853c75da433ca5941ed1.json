@@ -6,8 +6,8 @@
             "inheritedMetaData": {},
             "transformData": {},
             "stats": {
-                "date": 1773737021434,
-                "duration": 99.13370000000577,
+                "date": 1773813989774,
+                "duration": 0.38719999976456165,
                 "success": true
             }
         },
@@ -20,8 +20,8 @@
             "inheritedMetaData": {},
             "transformData": {},
             "stats": {
-                "date": 1773737021434,
-                "duration": 98.85750000004191,
+                "date": 1773813718041,
+                "duration": 1.582599999383092,
                 "success": true
             }
         },
@@ -9859,8 +9859,8 @@
             },
             "transformData": {},
             "stats": {
-                "date": 1770180740106,
-                "duration": 2656.0342999994755,
+                "date": 1773813718042,
+                "duration": 2445.9610000001267,
                 "success": true
             }
         },
@@ -9929,17 +9929,6 @@
             },
             "transformData": {},
             "hash": "dT31bQ"
-        },
-        "E:/PixiJS/PixiTest/raw-assets/main{m}/ui{tps}/blank-icon.jpg": {
-            "isFolder": false,
-            "parent": "E:/PixiJS/PixiTest/raw-assets/main{m}/ui{tps}",
-            "metaData": {},
-            "inheritedMetaData": {
-                "m": true,
-                "tps": true
-            },
-            "transformData": {},
-            "hash": "o3y2Dg"
         },
         "E:/PixiJS/PixiTest/raw-assets/main{m}/ui{tps}/Button-0-0.png": {
             "isFolder": false,
@@ -10028,28 +10017,6 @@
             },
             "transformData": {},
             "hash": "Ybx_ug"
-        },
-        "E:/PixiJS/PixiTest/raw-assets/main{m}/ui{tps}/button-icon-down.png": {
-            "isFolder": false,
-            "parent": "E:/PixiJS/PixiTest/raw-assets/main{m}/ui{tps}",
-            "metaData": {},
-            "inheritedMetaData": {
-                "m": true,
-                "tps": true
-            },
-            "transformData": {},
-            "hash": "I6iTZA"
-        },
-        "E:/PixiJS/PixiTest/raw-assets/main{m}/ui{tps}/button-icon-up.png": {
-            "isFolder": false,
-            "parent": "E:/PixiJS/PixiTest/raw-assets/main{m}/ui{tps}",
-            "metaData": {},
-            "inheritedMetaData": {
-                "m": true,
-                "tps": true
-            },
-            "transformData": {},
-            "hash": "4aJzjw"
         },
         "E:/PixiJS/PixiTest/raw-assets/main{m}/ui{tps}/Button-Skip.png": {
             "isFolder": false,
@@ -10213,17 +10180,6 @@
             },
             "transformData": {},
             "hash": "Zmn9wg"
-        },
-        "E:/PixiJS/PixiTest/raw-assets/main{m}/ui{tps}/higher-icon.jpg": {
-            "isFolder": false,
-            "parent": "E:/PixiJS/PixiTest/raw-assets/main{m}/ui{tps}",
-            "metaData": {},
-            "inheritedMetaData": {
-                "m": true,
-                "tps": true
-            },
-            "transformData": {},
-            "hash": "jE8bJQ"
         },
         "E:/PixiJS/PixiTest/raw-assets/main{m}/ui{tps}/Icon-Arrow-0.png": {
             "isFolder": false,
@@ -10423,17 +10379,6 @@
             "transformData": {},
             "hash": "cIW3Rg"
         },
-        "E:/PixiJS/PixiTest/raw-assets/main{m}/ui{tps}/lower-icon.jpg": {
-            "isFolder": false,
-            "parent": "E:/PixiJS/PixiTest/raw-assets/main{m}/ui{tps}",
-            "metaData": {},
-            "inheritedMetaData": {
-                "m": true,
-                "tps": true
-            },
-            "transformData": {},
-            "hash": "vKW5jQ"
-        },
         "E:/PixiJS/PixiTest/raw-assets/main{m}/ui{tps}/rounded-rectangle.png": {
             "isFolder": false,
             "parent": "E:/PixiJS/PixiTest/raw-assets/main{m}/ui{tps}",
@@ -10466,17 +10411,6 @@
             },
             "transformData": {},
             "hash": "tbyajw"
-        },
-        "E:/PixiJS/PixiTest/raw-assets/main{m}/ui{tps}/skip-icon.jpg": {
-            "isFolder": false,
-            "parent": "E:/PixiJS/PixiTest/raw-assets/main{m}/ui{tps}",
-            "metaData": {},
-            "inheritedMetaData": {
-                "m": true,
-                "tps": true
-            },
-            "transformData": {},
-            "hash": "o3y2Dg"
         },
         "E:/PixiJS/PixiTest/raw-assets/main{m}/ui{tps}/Skip.png": {
             "isFolder": false,
@@ -10821,8 +10755,8 @@
             "inheritedMetaData": {},
             "transformData": {},
             "stats": {
-                "date": 1770107591369,
-                "duration": 0.05580000000009022,
+                "date": 1773813989774,
+                "duration": 0.33019999973475933,
                 "success": true
             }
         },
@@ -11570,11 +11504,11 @@
             },
             "transformData": {},
             "stats": {
-                "date": 1770107592073,
-                "duration": 273.72980000000007,
+                "date": 1773813989774,
+                "duration": 120.15270000044256,
                 "success": true
             },
-            "hash": "a5Z4vQ"
+            "hash": "gQSCQA"
         },
         ".assetpack/mipmap/preload{m}/exitButton.png": {
             "isFolder": false,

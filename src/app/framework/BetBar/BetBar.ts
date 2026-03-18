@@ -250,7 +250,7 @@ export class BetBar extends Container {
         if (value !== undefined) {
             const numValue = parseFloat(value.replace(/,/g, ''));
             if (!isNaN(numValue)) {
-                this.moneyLabel.text = numValue.toLocaleString('de-DE', {
+                this.moneyLabel.text = numValue.toLocaleString('en-US', {
                     minimumFractionDigits: 0,
                     maximumFractionDigits: 2
                 });

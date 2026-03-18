@@ -101,7 +101,16 @@ export class BetInput extends Container {
     }
 
     private updateText() {
-        this.displayText.text = "RP " + this._value;
+        const numValue = parseFloat(this._value.replace(/,/g, ''));
+        if (!isNaN(numValue)) {
+            const formatted = numValue.toLocaleString('en-US', {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 2,
+            });
+            this.displayText.text = "RP " + formatted;
+        } else {
+            this.displayText.text = "RP " + this._value;
+        }
 
         // Reset scale to measure natural width
         this.displayText.scale.set(1);

@@ -121,7 +121,7 @@ export class ResultPopup extends Container {
     // Check if total is effectively an integer (or close enough) to decide decimals?
     // User requested same format as main money but with currency symbol: "rp 2000" or "$2000"
     // Using id-ID to match MobileLayout logic, adding 'currency' style
-    this.resultLabel.text = total.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 2 });
+    this.resultLabel.text = `RP ${total.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 })}`;
   }
 
   /** Resize the popup, fired whenever window size changes */

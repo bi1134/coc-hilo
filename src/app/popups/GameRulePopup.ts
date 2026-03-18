@@ -60,6 +60,8 @@ export class GameRulePopup extends Container {
             defaultView: "exitButton.png",
             animations: buttonAnimation,
         });
+
+        this.closeBtn.scale.set(1.75);
         this.closeBtn.onPress.connect(() => {
             engine().navigation.dismissPopup();
             this.onRulePopupClosed?.();

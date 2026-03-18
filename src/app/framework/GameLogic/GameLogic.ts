@@ -225,10 +225,10 @@ export class GameLogic extends Container {
 
         // Button Glows Overlays
         this.higherGlow.x = this.upButton.x + this.upButton.width / 2;
-        this.higherGlow.y = this.upButton.y + this.upButton.height / 2;
+        this.higherGlow.y = this.upButton.y + this.upButton.height / 2 + 1;
 
         this.lowerGlow.x = this.downButton.x + this.downButton.width / 2;
-        this.lowerGlow.y = this.downButton.y + this.downButton.height / 2;
+        this.lowerGlow.y = this.downButton.y + this.downButton.height / 2 - 3;
 
         // Higher lower text position
         LayoutHelper.setPositionX(

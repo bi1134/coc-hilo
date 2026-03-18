@@ -72,6 +72,8 @@ export class PopupHistoryUI extends Container {
       defaultView: "exitButton.png",
       animations: buttonAnimation,
     });
+
+    this.closeBtn.scale.set(1.75);
     this.closeBtn.onPress.connect(() => {
       engine().navigation.dismissPopup();
       this.onHistoryPopupClosed?.();

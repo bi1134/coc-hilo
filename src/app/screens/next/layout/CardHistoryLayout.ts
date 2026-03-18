@@ -147,13 +147,12 @@ export class CardHistoryLayout extends Container {
 
 
     const finalScale = itemScale ?? 1;
-    const boostScale = finalScale * 1.1; // Newest card is 10% larger
+    const boostScale = finalScale; // Disabled boost: all cards same size
 
     // Calculate centering offset for the boosted card
     // Since pivot serves as 0,0 (visually top-left), scaling down pushes visual center down.
     // We move Y up to compensate.
     const unscaledHeight = item.getLocalBounds().height;
-    const centerOffset = (unscaledHeight * (boostScale - 1)) / 25;
 
     // 0. Scale down previous newest item (if exists)
     if (this.list.children.length > 0) {
@@ -242,10 +241,8 @@ export class CardHistoryLayout extends Container {
     item.alpha = 0;
     // Set initial scale/pos matches target (or start small)
     item.scale.set(boostScale * 0.5);
-    // Start at centering position? Or 0?
-    // If we want it to pop into center, we should animate Y to centerOffset.
-    item.y = centerOffset; // Set initial Y to target offset so it doesn't jump?
-    // Actually we animate entry.
+    // Start slightly above and animate down to y=0 so it feels like it's snapping into position
+    item.y = 0; // will be overridden by fromTo below
 
     const popDuration = instantLayout ? 0 : 0.3;
 
@@ -277,9 +274,11 @@ export class CardHistoryLayout extends Container {
     // StartOffset = unscaledHeight/2 * (1 - 0.5*boost) approx.
     // Let's just animate Y from something to centerOffset.
 
+    // Animate Y from slightly above (negative offset) down to 0 with a satisfying ease back.out
+    const startYOffset = -(unscaledHeight * 0.35); // Start above by ~35% of card height
     gsap.fromTo(item,
-      { y: 0 },
-      { y: centerOffset, duration: popDuration, ease: "back.out" }
+      { y: startYOffset },
+      { y: 0, duration: popDuration, ease: "back.out(1.5)" }
     );
 
     const animScale = gsap.to(item.scale, {

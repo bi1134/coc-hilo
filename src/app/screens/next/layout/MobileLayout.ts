@@ -23,6 +23,7 @@ export class MobileLayout extends Container {
 
     this.background = Sprite.from("BG.png");
     this.background.anchor.set(0.5);
+    this.background.tint = 0xC7C7C7;
     this.fancyBoxContainer.addChild(this.background);
 
     // --- Instantiate Framework Components ---
