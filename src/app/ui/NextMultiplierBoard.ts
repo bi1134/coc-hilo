@@ -22,6 +22,7 @@ export class NextMultiplierBoard extends Container {
         this.bg.anchor.set(0.5);
         this.bg.zIndex = 0;
         this.addChild(this.bg);
+        this.bg.visible = false;
 
         // Initialize Spine synchronously (Assets are preloaded in NextScreen.ts)
         this.infoSpine = Spine.from({
@@ -35,7 +36,7 @@ export class NextMultiplierBoard extends Container {
         this.infoSpine.state.setAnimation(0, UIInfoAnimationState.Idle, true);
         this.infoSpine.zIndex = 1;
         this.addChild(this.infoSpine);
-
+        this.infoSpine.height = 180;
         // Position
         this.infoSpine.x = 0; // Relative to this container
         this.infoSpine.y = 0;
