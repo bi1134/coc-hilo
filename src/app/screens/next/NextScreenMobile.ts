@@ -47,7 +47,7 @@ export class NextScreenMobile extends Container {
     // --- Setup Event Listeners ---
     this.setupEvents();
 
-    this.layout.currentCard.RandomizeValue();
+    this.layout.currentCard.RandomizeValue(false);
     this.EnterBettingState();
 
     this.resize(width, height);
@@ -90,11 +90,6 @@ export class NextScreenMobile extends Container {
           console.log("Resuming active game session...");
           const activity = data.last_activity;
 
-          // Restore card
-          const rankStr = this.numericToRank(activity.rank);
-          const suitStr = this.numericToSuit(activity.suit);
-          this.layout.currentCard.SetValue(rankStr, suitStr);
-
           // Restore multiplier
           this.multiplierManager.setMultiplier(activity.multiplier);
 
@@ -105,10 +100,14 @@ export class NextScreenMobile extends Container {
             this.layout.inputBox.value = data.last_bet.toString();
           }
 
-          // Enter non-betting state (keepCard=true)
-          // NOTE: EnterNonBettingState clears history but does NOT add the initial card
-          // when keepCard=true, so we can safely add all history cards below with no GSAP conflict.
+          // Enter non-betting state (keepCard=true) FIRST so resetToIdle runs cleanly
+          // Then apply the restored card skin AFTER so no animation gets stomped
           this.EnterNonBettingState(true);
+
+          // Restore card skin AFTER resetToIdle, with flip animation to reveal the card
+          const rankStr = this.numericToRank(activity.rank);
+          const suitStr = this.numericToSuit(activity.suit);
+          this.layout.currentCard.SetValue(rankStr, suitStr, true);
 
           // Restore card history bar from history_cards array
           // Format: "n-4-11-0.00" → action-suit-rank-multiplier
@@ -196,10 +195,10 @@ export class NextScreenMobile extends Container {
       const hRank = this.numericToRank(rankNum);
       const hSuit = this.numericToSuit(suitNum);
       const hAction = this.historyCodeToGuessAction(actionCode);
-      const isWin = actionCode !== 'l'; // 'l' = lower = lost
+      // history_cards only exists for an ACTIVE (non-ended) session — all picks here are wins
+      const isWin = true;
 
-      const isStartCard = hAction === GuessAction.Start;
-      const leftPad = isStartCard ? 0 : -20;
+      const leftPad = -20; // Always -20 to match live gameplay card spacing
 
       this.layout.cardHistoryLayout.addCardToHistory(
         hRank, hSuit, hAction, leftPad, -5, 1, 0.35, mult, isWin, false, instantLayout, false
@@ -551,7 +550,7 @@ export class NextScreenMobile extends Container {
 
     if (!keepCard) {
       // Only randomize when NOT coming from a real API bet/resume
-      this.layout.currentCard.RandomizeValue();
+      this.layout.currentCard.RandomizeValue(false);
     }
     this.updateButtonLabels();
 

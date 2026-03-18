@@ -187,26 +187,26 @@ export class Card extends Container {
 
 
   // --- same API as before ---
-  public RandomizeValue(): void {
+  public RandomizeValue(playFlip: boolean = true): void {
     this._rank = this.ranks[Math.floor(Math.random() * this.ranks.length)];
     this._suit = this.suits[Math.floor(Math.random() * this.suits.length)];
-    this.UpdateTexture();
+    this.UpdateTexture(playFlip);
   }
 
   public GetNumericValue(): number {
     return this.ranks.indexOf(this._rank);
   }
 
-  public SetValue(rank: string, suit: CardSuit): void {
+  public SetValue(rank: string, suit: CardSuit, playFlip: boolean = true): void {
     this._rank = rank;
     this._suit = suit;
-    this.UpdateTexture();
+    this.UpdateTexture(playFlip);
   }
 
   private lastWidth = 0;
   private lastHeight = 0;
 
-  private UpdateTexture(): void {
+  private UpdateTexture(playFlip: boolean = true): void {
     // build texture file name
     const textureName = `${this._suit}-card-${this._rank.toLowerCase()}.png`;
     this.mesh.texture = Texture.from(textureName);
@@ -240,10 +240,15 @@ export class Card extends Container {
         this.spineCard.skeleton.setSkinByName(skinName);
         this.spineCard.skeleton.setSlotsToSetupPose();
 
-        // Animation Sequence: Flip -> StartIdle -> Idle
-        this.spineCard.state.setAnimation(0, AnimationState.Flip, false);
-        this.spineCard.state.addAnimation(0, AnimationState.StartIdle, false, 0);
-        this.spineCard.state.addAnimation(0, AnimationState.Idle, true, 0);
+        if (playFlip) {
+          // Animation Sequence: Flip -> StartIdle -> Idle
+          this.spineCard.state.setAnimation(0, AnimationState.Flip, false);
+          this.spineCard.state.addAnimation(0, AnimationState.StartIdle, false, 0);
+          this.spineCard.state.addAnimation(0, AnimationState.Idle, true, 0);
+        } else {
+          // Force Idle instantly
+          this.spineCard.state.setAnimation(0, AnimationState.Idle, true);
+        }
 
       } catch (e) {
         console.warn(`Spine skin '${skinName}' not found.`);
@@ -332,6 +337,17 @@ export class Card extends Container {
 
 
   public async playLoseAnimation() {
+    // Wait for Flip animation if it is currently playing
+    if (this.spineCard) {
+        const track = this.spineCard.state.getCurrent(0);
+        if (track && track.animation.name === AnimationState.Flip) {
+            const timeRemaining = (track.animation.duration - track.trackTime) * 1000;
+            if (timeRemaining > 0) {
+                await new Promise(resolve => setTimeout(resolve, timeRemaining));
+            }
+        }
+    }
+
     // Force switch to mesh/shadow view
     if (this.spineCard) this.spineCard.visible = false;
     this.mesh.visible = true;
@@ -349,8 +365,6 @@ export class Card extends Container {
 
     // Lerp back to base scale (original size)
     this.resetScale();
-    // Lerp back to base scale (original size)
-    this.resetScale();
   }
 
   public resetToIdle() {
@@ -360,7 +374,13 @@ export class Card extends Container {
     this.mesh.visible = false;
     if (this.spineCard) {
       this.spineCard.visible = true;
-      this.spineCard.state.setAnimation(0, AnimationState.Idle, true);
+
+      // Don't interrupt a Flip that's already playing — let it finish naturally
+      const track = this.spineCard.state.getCurrent(0);
+      const isFlipping = track?.animation && track.animation.name === AnimationState.Flip;
+      if (!isFlipping) {
+        this.spineCard.state.setAnimation(0, AnimationState.Idle, true);
+      }
     }
     this.resetScale();
   }

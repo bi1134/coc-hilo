@@ -30,6 +30,12 @@ export class ResultPopup extends Container {
 
   private invisButton: FancyButton;
 
+  // Track active number animation tweens so we can skip-to-end on early close
+  private _multiplierTween: gsap.core.Tween | null = null;
+  private _totalTween: gsap.core.Tween | null = null;
+  private _finalMultiplier: number = 0;
+  private _finalTotal: number = 0;
+
   // Container for safe area scaling
   private safeArea: Container;
 
@@ -112,18 +118,46 @@ export class ResultPopup extends Container {
     });
     this.invisButton.alpha = 0;
     this.safeArea.addChild(this.invisButton); // Add to safe area to cover content
-    this.invisButton.onPress.connect(() => engine().navigation.dismissPopup());
+    this.invisButton.onPress.connect(() => {
+      // Kill all pending text pop-in animations and snap to final state
+      gsap.killTweensOf(this.title);
+      gsap.killTweensOf(this.title.scale);
+      gsap.killTweensOf(this.youWinLabel);
+      gsap.killTweensOf(this.youWinLabel.scale);
+      gsap.killTweensOf(this.resultLabel);
+      gsap.killTweensOf(this.resultLabel.scale);
+      this.title.alpha = 1; this.title.scale.set(1);
+      this.youWinLabel.alpha = 1; this.youWinLabel.scale.set(1);
+      this.resultLabel.alpha = 1; this.resultLabel.scale.set(1);
+
+      // Skip number rolling animations to final values
+      if (this._multiplierTween) {
+        this._multiplierTween.kill();
+        this._multiplierTween = null;
+        this.title.text = `${this._finalMultiplier % 1 === 0 ? this._finalMultiplier.toFixed(0) : this._finalMultiplier.toFixed(2)}x`;
+      }
+      if (this._totalTween) {
+        this._totalTween.kill();
+        this._totalTween = null;
+        const fmt = this._finalTotal % 1 === 0
+          ? this._finalTotal.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })
+          : this._finalTotal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        (this.resultLabel as any).text = `RP ${fmt}`;
+      }
+      engine().navigation.dismissPopup();
+    });
   }
 
   public setResult(multiplier: number, baseAmount: number) {
     const total = baseAmount * multiplier;
-    
+    this._finalMultiplier = multiplier;
+    this._finalTotal = total;
+
     // Animate the multiplier text (e.g. from 0x to 1.50x)
-    NumberAnimator.animate(this.title, 0, multiplier, 1.5, "", "x", 2);
+    this._multiplierTween = NumberAnimator.animate(this.title, 0, multiplier, 1.5, "", "x", 2);
 
     // Animate the money total (e.g. from RP 0 to RP 1,500.00)
-    // The animator automatically handles the en-US formatting (commas/dots)
-    NumberAnimator.animate(this.resultLabel as any, 0, total, 1.5, "RP ", "", 2);
+    this._totalTween = NumberAnimator.animate(this.resultLabel as any, 0, total, 1.5, "RP ", "", 2);
   }
 
   /** Resize the popup, fired whenever window size changes */
