@@ -1065,9 +1065,13 @@ export class NextScreenMobile extends Container {
 
     // Only update button labels and board if the round is continuing (Win/Skip)
     // If we lost, EnterBettingState handled resetting the board to 0.
+    const isWin = !data.end_round && action !== GuessAction.Skip;
     if (!data.end_round) {
       this.updateButtonLabels();
       this.layout.gameLogic.updateButtonGlows(this.multiplierManager.comboDirection, this.multiplierManager.comboStreak);
+      if (isWin) {
+        this.layout.multiplierBoard.playWinAnimation();
+      }
     }
   }
 }

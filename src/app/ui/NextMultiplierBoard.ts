@@ -5,7 +5,8 @@ import { NumberAnimator } from "../utils/NumberAnimator";
 
 export enum UIInfoAnimationState {
     Idle = "idle",
-    action = "action"
+    action = "action",
+    action1 = "action1",
 }
 
 export class NextMultiplierBoard extends Container {
@@ -81,7 +82,7 @@ export class NextMultiplierBoard extends Container {
         this.updateValues(value, 0);
     }
 
-    public updateValues(multiplier: number, currentBet: number) {
+    public updateValues(multiplier: number, currentBet: number, skipSpine: boolean = false) {
         const totalWin = multiplier * currentBet;
 
         if (this.currentTween) {
@@ -102,11 +103,18 @@ export class NextMultiplierBoard extends Container {
         } else {
             this.bottomLabel.text = "RP 0";
         }
-        
+
         this.currentTotalWin = totalWin;
 
-        if (this.infoSpine) {
+        if (!skipSpine && this.infoSpine) {
             this.infoSpine.state.setAnimation(0, UIInfoAnimationState.action, false);
+            this.infoSpine.state.addAnimation(0, UIInfoAnimationState.Idle, true, 0);
+        }
+    }
+
+    public playWinAnimation() {
+        if (this.infoSpine) {
+            this.infoSpine.state.setAnimation(0, UIInfoAnimationState.action1, false);
             this.infoSpine.state.addAnimation(0, UIInfoAnimationState.Idle, true, 0);
         }
     }

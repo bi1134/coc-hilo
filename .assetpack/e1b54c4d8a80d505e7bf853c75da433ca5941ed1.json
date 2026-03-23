@@ -6,8 +6,8 @@
             "inheritedMetaData": {},
             "transformData": {},
             "stats": {
-                "date": 1773813989774,
-                "duration": 0.38719999976456165,
+                "date": 1774003732925,
+                "duration": 222.35920000029728,
                 "success": true
             }
         },
@@ -20,8 +20,8 @@
             "inheritedMetaData": {},
             "transformData": {},
             "stats": {
-                "date": 1773813718041,
-                "duration": 1.582599999383092,
+                "date": 1774003732925,
+                "duration": 222.28759999992326,
                 "success": true
             }
         },
@@ -8673,8 +8673,8 @@
             },
             "transformData": {},
             "stats": {
-                "date": 1772701531162,
-                "duration": 297.27229999995325,
+                "date": 1774003732925,
+                "duration": 222.24099999992177,
                 "success": true
             }
         },
@@ -9155,8 +9155,8 @@
             },
             "transformData": {},
             "stats": {
-                "date": 1770196493236,
-                "duration": 14.01620000001276,
+                "date": 1774002506415,
+                "duration": 14.83089999994263,
                 "success": true
             },
             "hash": "cOjsUA"
@@ -9260,8 +9260,8 @@
             },
             "transformData": {},
             "stats": {
-                "date": 1770196493237,
-                "duration": 364.15869999999995,
+                "date": 1774002506416,
+                "duration": 372.31790000002366,
                 "success": true
             },
             "hash": "ei0rig"
@@ -9365,8 +9365,8 @@
             },
             "transformData": {},
             "stats": {
-                "date": 1770196493246,
-                "duration": 4.357000000018161,
+                "date": 1774002506427,
+                "duration": 2.7856000000610948,
                 "success": true
             },
             "hash": "KPZ9"
@@ -9614,111 +9614,6 @@
             },
             "transformData": {}
         },
-        "E:/PixiJS/PixiTest/raw-assets/main{m}/spine/UI_Info.atlas": {
-            "isFolder": false,
-            "parent": "E:/PixiJS/PixiTest/raw-assets/main{m}/spine",
-            "metaData": {},
-            "inheritedMetaData": {
-                "m": true
-            },
-            "transformData": {},
-            "stats": {
-                "date": 1770792531191,
-                "duration": 465.70279999997,
-                "success": true
-            },
-            "hash": "IR2bTQ"
-        },
-        ".assetpack/mipmap-spine-atlas/main{m}/spine/UI_Info.atlas": {
-            "isFolder": false,
-            "transformParent": "E:/PixiJS/PixiTest/raw-assets/main{m}/spine/UI_Info.atlas",
-            "metaData": {},
-            "inheritedMetaData": {
-                "m": true
-            },
-            "transformData": {}
-        },
-        ".assetpack/spine-atlas-compress/main{m}/spine/UI_Info.png.atlas": {
-            "isFolder": false,
-            "transformParent": ".assetpack/mipmap-spine-atlas/main{m}/spine/UI_Info.atlas",
-            "metaData": {},
-            "inheritedMetaData": {
-                "m": true
-            },
-            "transformData": {}
-        },
-        "E:/PixiJS/PixiTest/public/assets/main/spine/UI_Info.png.atlas": {
-            "isFolder": false,
-            "transformParent": ".assetpack/spine-atlas-compress/main{m}/spine/UI_Info.png.atlas",
-            "metaData": {},
-            "inheritedMetaData": {
-                "m": true
-            },
-            "transformData": {}
-        },
-        ".assetpack/spine-atlas-compress/main{m}/spine/UI_Info.webp.atlas": {
-            "isFolder": false,
-            "transformParent": ".assetpack/mipmap-spine-atlas/main{m}/spine/UI_Info.atlas",
-            "metaData": {},
-            "inheritedMetaData": {
-                "m": true
-            },
-            "transformData": {}
-        },
-        "E:/PixiJS/PixiTest/public/assets/main/spine/UI_Info.webp.atlas": {
-            "isFolder": false,
-            "transformParent": ".assetpack/spine-atlas-compress/main{m}/spine/UI_Info.webp.atlas",
-            "metaData": {},
-            "inheritedMetaData": {
-                "m": true
-            },
-            "transformData": {}
-        },
-        ".assetpack/mipmap-spine-atlas/main{m}/spine/UI_Info@0.5x.atlas": {
-            "isFolder": false,
-            "transformParent": "E:/PixiJS/PixiTest/raw-assets/main{m}/spine/UI_Info.atlas",
-            "metaData": {},
-            "inheritedMetaData": {
-                "m": true
-            },
-            "transformData": {}
-        },
-        ".assetpack/spine-atlas-compress/main{m}/spine/UI_Info@0.5x.png.atlas": {
-            "isFolder": false,
-            "transformParent": ".assetpack/mipmap-spine-atlas/main{m}/spine/UI_Info@0.5x.atlas",
-            "metaData": {},
-            "inheritedMetaData": {
-                "m": true
-            },
-            "transformData": {}
-        },
-        "E:/PixiJS/PixiTest/public/assets/main/spine/UI_Info@0.5x.png.atlas": {
-            "isFolder": false,
-            "transformParent": ".assetpack/spine-atlas-compress/main{m}/spine/UI_Info@0.5x.png.atlas",
-            "metaData": {},
-            "inheritedMetaData": {
-                "m": true
-            },
-            "transformData": {}
-        },
-        ".assetpack/spine-atlas-compress/main{m}/spine/UI_Info@0.5x.webp.atlas": {
-            "isFolder": false,
-            "transformParent": ".assetpack/mipmap-spine-atlas/main{m}/spine/UI_Info@0.5x.atlas",
-            "metaData": {},
-            "inheritedMetaData": {
-                "m": true
-            },
-            "transformData": {}
-        },
-        "E:/PixiJS/PixiTest/public/assets/main/spine/UI_Info@0.5x.webp.atlas": {
-            "isFolder": false,
-            "transformParent": ".assetpack/spine-atlas-compress/main{m}/spine/UI_Info@0.5x.webp.atlas",
-            "metaData": {},
-            "inheritedMetaData": {
-                "m": true
-            },
-            "transformData": {}
-        },
         "E:/PixiJS/PixiTest/raw-assets/main{m}/spine/UI_Info.png": {
             "isFolder": false,
             "parent": "E:/PixiJS/PixiTest/raw-assets/main{m}/spine",
@@ -9728,11 +9623,11 @@
             },
             "transformData": {},
             "stats": {
-                "date": 1770792531192,
-                "duration": 1255.672099999967,
+                "date": 1774003732925,
+                "duration": 323.4026000001468,
                 "success": true
             },
-            "hash": "TODnNw"
+            "hash": "d5SZkw"
         },
         ".assetpack/mipmap/main{m}/spine/UI_Info.png": {
             "isFolder": false,
@@ -9824,6 +9719,111 @@
             },
             "transformData": {}
         },
+        "E:/PixiJS/PixiTest/raw-assets/main{m}/spine/UI_Info.atlas": {
+            "isFolder": false,
+            "parent": "E:/PixiJS/PixiTest/raw-assets/main{m}/spine",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {},
+            "stats": {
+                "date": 1774003732925,
+                "duration": 223.35259999986738,
+                "success": true
+            },
+            "hash": "ii_1UA"
+        },
+        ".assetpack/mipmap-spine-atlas/main{m}/spine/UI_Info.atlas": {
+            "isFolder": false,
+            "transformParent": "E:/PixiJS/PixiTest/raw-assets/main{m}/spine/UI_Info.atlas",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {}
+        },
+        ".assetpack/spine-atlas-compress/main{m}/spine/UI_Info.png.atlas": {
+            "isFolder": false,
+            "transformParent": ".assetpack/mipmap-spine-atlas/main{m}/spine/UI_Info.atlas",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {}
+        },
+        "E:/PixiJS/PixiTest/public/assets/main/spine/UI_Info.png.atlas": {
+            "isFolder": false,
+            "transformParent": ".assetpack/spine-atlas-compress/main{m}/spine/UI_Info.png.atlas",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {}
+        },
+        ".assetpack/spine-atlas-compress/main{m}/spine/UI_Info.webp.atlas": {
+            "isFolder": false,
+            "transformParent": ".assetpack/mipmap-spine-atlas/main{m}/spine/UI_Info.atlas",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {}
+        },
+        "E:/PixiJS/PixiTest/public/assets/main/spine/UI_Info.webp.atlas": {
+            "isFolder": false,
+            "transformParent": ".assetpack/spine-atlas-compress/main{m}/spine/UI_Info.webp.atlas",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {}
+        },
+        ".assetpack/mipmap-spine-atlas/main{m}/spine/UI_Info@0.5x.atlas": {
+            "isFolder": false,
+            "transformParent": "E:/PixiJS/PixiTest/raw-assets/main{m}/spine/UI_Info.atlas",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {}
+        },
+        ".assetpack/spine-atlas-compress/main{m}/spine/UI_Info@0.5x.png.atlas": {
+            "isFolder": false,
+            "transformParent": ".assetpack/mipmap-spine-atlas/main{m}/spine/UI_Info@0.5x.atlas",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {}
+        },
+        "E:/PixiJS/PixiTest/public/assets/main/spine/UI_Info@0.5x.png.atlas": {
+            "isFolder": false,
+            "transformParent": ".assetpack/spine-atlas-compress/main{m}/spine/UI_Info@0.5x.png.atlas",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {}
+        },
+        ".assetpack/spine-atlas-compress/main{m}/spine/UI_Info@0.5x.webp.atlas": {
+            "isFolder": false,
+            "transformParent": ".assetpack/mipmap-spine-atlas/main{m}/spine/UI_Info@0.5x.atlas",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {}
+        },
+        "E:/PixiJS/PixiTest/public/assets/main/spine/UI_Info@0.5x.webp.atlas": {
+            "isFolder": false,
+            "transformParent": ".assetpack/spine-atlas-compress/main{m}/spine/UI_Info@0.5x.webp.atlas",
+            "metaData": {},
+            "inheritedMetaData": {
+                "m": true
+            },
+            "transformData": {}
+        },
         "E:/PixiJS/PixiTest/raw-assets/main{m}/spine/UI_Info.skel": {
             "isFolder": false,
             "parent": "E:/PixiJS/PixiTest/raw-assets/main{m}/spine",
@@ -9833,11 +9833,11 @@
             },
             "transformData": {},
             "stats": {
-                "date": 1770792531611,
-                "duration": 45.204100000089966,
+                "date": 1774003733147,
+                "duration": 1.6658999999053776,
                 "success": true
             },
-            "hash": "RPhajg"
+            "hash": "k0pDuA"
         },
         "E:/PixiJS/PixiTest/public/assets/main/spine/UI_Info.skel": {
             "isFolder": false,
